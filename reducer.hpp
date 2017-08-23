@@ -5,10 +5,6 @@ struct State {
   std::string name;
 
   State() : count(0), name("") {};
-  State(int num) : count(num) {};
-  ~State() { };
-
-  State * clone() const { return new State(*this); }
 };
 
 std::ostream &operator<<(std::ostream &os, State const &state) { 

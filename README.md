@@ -4,8 +4,8 @@ Here's the gist of it, left out some stuff for clarity sake
 ---
 ```cpp
 enum ActionType {
-	INCREMENT,
-	DECREMENT,
+  INCREMENT,
+  DECREMENT,
   NAME_CHANGE,
 };
 ```
@@ -13,7 +13,6 @@ enum ActionType {
 ### Action Creators
 ---
 ```cpp
-// action creators
 Action increment(int payload) {
 	return Action(INCREMENT, payload);
 }
@@ -32,11 +31,8 @@ struct State {
   int count;
   std::string name;
 
+  //initial state
   State() : count(0), name("") {};
-  State(int num) : count(num) {};
-  ~State() { };
-
-  State * clone() const { return new State(*this); }
 };
 ```
 
@@ -51,23 +47,23 @@ redux::Store<State, Action> store(reducer, State{});
 ---
 ```cpp
 State reducer(State state, Action action) {
-	switch(action.type) {
-		case INCREMENT:
+  switch(action.type) {
+    case INCREMENT:
 
       state.count += boost::any_cast<int>(action.payload);
-			return state;
+      return state;
 
-		case DECREMENT:
+    case DECREMENT:
       state.count -= boost::any_cast<int>(action.payload);
-			return state;
+      return state;
 
     case NAME_CHANGE:
       state.name = boost::any_cast<std::string>(action.payload);
       return state;
 
-		default:
-			return state;
-	}
+    default:
+      return state;
+  }
 };
 ```
 
@@ -78,4 +74,5 @@ store.dispatch(increment(1));
 store.dispatch(nameChange("colton"));
 
 std::cout << store.getState();
+// count: 1, name: "colton"
 ```

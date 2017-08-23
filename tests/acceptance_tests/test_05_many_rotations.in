@@ -1,0 +1,90 @@
+initial
+
+red yellow red
+orange white yellow
+white green yellow
+
+green blue orange
+green green white
+white green red
+
+green orange orange
+blue red green
+blue yellow green
+
+blue red blue
+red blue red
+red orange yellow
+
+white orange white
+blue orange yellow
+orange white blue
+
+yellow blue yellow
+white yellow white
+orange red green
+
+rotate white cw
+rotate blue cw
+rotate yellow ccw
+rotate blue ccw
+rotate yellow ccw
+rotate red ccw
+rotate red ccw
+rotate blue ccw
+rotate yellow cw
+rotate blue cw
+rotate red ccw
+rotate white cw
+rotate white cw
+rotate yellow ccw
+rotate yellow ccw
+rotate orange cw
+rotate yellow ccw
+rotate green cw
+rotate yellow ccw
+rotate white cw
+rotate orange ccw
+rotate white ccw
+rotate red ccw
+rotate white cw
+rotate yellow ccw
+rotate green cw
+rotate red cw
+rotate white ccw
+rotate yellow cw
+rotate blue cw
+rotate blue cw
+rotate white cw
+rotate yellow ccw
+rotate red cw
+rotate white cw
+rotate done
+
+show
+
+isequal
+
+white white white
+white white white
+white white white
+
+green green green
+yellow green red
+yellow orange red
+
+red red red
+blue red yellow
+yellow red red
+
+blue blue blue
+green blue green
+blue green orange
+
+orange orange orange
+orange orange orange
+yellow yellow green
+
+green yellow yellow
+blue yellow red
+orange blue blue

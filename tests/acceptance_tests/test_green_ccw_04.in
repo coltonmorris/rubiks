@@ -1,0 +1,57 @@
+initial
+
+white white white
+white white white
+white white white
+
+green green green
+green green green
+green green green
+
+red red red
+red red red
+red red red
+
+blue blue blue
+blue blue blue
+blue blue blue
+
+orange orange orange
+orange orange orange
+orange orange orange
+
+yellow yellow yellow
+yellow yellow yellow
+yellow yellow yellow
+
+rotate green ccw
+rotate done
+
+show
+
+isequal
+
+red white white
+red white white
+red white white
+
+green green green
+green green green
+green green green
+
+
+yellow red red
+yellow red red
+yellow red red
+
+blue blue blue
+blue blue blue
+blue blue blue
+
+orange orange white
+orange orange white
+orange orange white
+
+orange yellow yellow
+orange yellow yellow
+orange yellow yellow

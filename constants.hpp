@@ -4,3 +4,12 @@ enum ActionType {
 	DECREMENT,
   NAME_CHANGE,
 };
+
+enum RubiksLayout {
+  WHITE,
+  GREEN,
+  RED,
+  BLUE,
+  ORANGE,
+  YELLOW,
+}

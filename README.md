@@ -1,6 +1,6 @@
 Here's the gist of it, left out some stuff for clarity sake
 
-## Action Types
+### Action Types
 ---
 ```cpp
 enum ActionType {
@@ -10,7 +10,7 @@ enum ActionType {
 };
 ```
 
-## Action Creators
+### Action Creators
 ---
 ```cpp
 // action creators
@@ -25,7 +25,7 @@ Action nameChange(std::string payload) {
 }
 ```
 
-## State
+### State
 ---
 ```cpp
 struct State {
@@ -40,14 +40,14 @@ struct State {
 };
 ```
 
-## Store
+### Store
 ---
 ```cpp
 // initialize store with initial state
 redux::Store<State, Action> store(reducer, State{});
 ```
 
-## Reducer
+### Reducer
 ---
 ```cpp
 State reducer(State state, Action action) {
@@ -71,7 +71,7 @@ State reducer(State state, Action action) {
 };
 ```
 
-## Dispatch Actions
+### Dispatch Actions
 ---
 ```cpp
 store.dispatch(increment(1));

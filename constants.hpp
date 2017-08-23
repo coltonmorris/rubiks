@@ -12,4 +12,4 @@ enum RubiksLayout {
   BLUE,
   ORANGE,
   YELLOW,
-}
+};

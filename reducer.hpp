@@ -4,6 +4,7 @@ struct State {
   int count;
   std::string name;
 
+  State() : count(0), name("") {};
   State(int num) : count(num) {};
   ~State() { };
 

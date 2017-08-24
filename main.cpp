@@ -18,7 +18,7 @@ int main() {
 	/* // 6 */
   store.dispatch(nameChange("colton"));
   /* store.dispatch(ccwWhite()); */
-  store.dispatch(ccwGreen());
-  /* store.dispatch(rotateCcw(WHITE)); */
+  store.dispatch(cwWhite());
+  /* store.dispatch(ccwGreen()); */
   std::cout << store.getState();
 };

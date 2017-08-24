@@ -1,4 +1,5 @@
-#include <list>
+#include <algorithm>
+#include <vector>
 
 typedef std::vector<std::string> Side;
 typedef std::vector<Side> Cube;
@@ -52,75 +53,52 @@ Cube initializeCube() {
     cube.push_back(side);
   }
 
+  cube[0][1] = "TEST";
+
   return cube;
 }; 
 
-Cube rotateCcw(Cube cube, int face) {
+Cube rotateFace(Cube cube, int face, bool isCcw) {
   Cube newCube{cube};
+  std::vector<int> newIndex{6,3,0,7,4,1,8,2,5};
 
-  for (int j = 0; j < 9; j++) {
-    /* cube[face].push_back(colorNames[i]); */
+  if (isCcw) {
+    std::reverse(newIndex.begin(), newIndex.end());
   }
-  return cube;
-}
-
-Cube ccwWhite(Cube cube) {
-  /*  red -> blue
-   *  blue -> orange
-   *  orange -> green
-   *  green -> red
-   *  white -> white
-   */
-  Cube newCube{cube};
-
-  newCube[WHITE][0] = cube[WHITE][2];
-  newCube[WHITE][1] = cube[WHITE][5];
-  newCube[WHITE][2] = cube[WHITE][8];
-  newCube[WHITE][3] = cube[WHITE][1];
-  newCube[WHITE][5] = cube[WHITE][7];
-  newCube[WHITE][6] = cube[WHITE][0];
-  newCube[WHITE][7] = cube[WHITE][3];
-  newCube[WHITE][8] = cube[WHITE][6];
-  // clock wise: 
-  /* newCube[WHITE][0] = cube[WHITE][6]; */
-  /* newCube[WHITE][1] = cube[WHITE][3]; */
-  /* newCube[WHITE][2] = cube[WHITE][0]; */
-  /* newCube[WHITE][3] = cube[WHITE][7]; */
-  /* newCube[WHITE][5] = cube[WHITE][1]; */
-  /* newCube[WHITE][6] = cube[WHITE][8]; */
-  /* newCube[WHITE][7] = cube[WHITE][5]; */
-  /* newCube[WHITE][8] = cube[WHITE][2]; */
-
-  newCube[GREEN][0] = cube[ORANGE][0];
-  newCube[GREEN][1] = cube[ORANGE][1];
-  newCube[GREEN][2] = cube[ORANGE][2];
-
-  newCube[ORANGE][0] = cube[BLUE][0];
-  newCube[ORANGE][1] = cube[BLUE][1];
-  newCube[ORANGE][2] = cube[BLUE][2];
-
-  newCube[BLUE][0] = cube[RED][0];
-  newCube[BLUE][1] = cube[RED][1];
-  newCube[BLUE][2] = cube[RED][2];
-
-  newCube[RED][0] = cube[GREEN][0];
-  newCube[RED][1] = cube[GREEN][1];
-  newCube[RED][2] = cube[GREEN][2];
+  
+  // assign new rotations for this face
+  for (int i = 0; i < 9; i++) {
+    // ignore the middle
+    if (i != 4) {
+      newCube[face][i] = cube[face][newIndex[i]];
+    }
+  }
 
   return newCube;
 }
 
-Cube ccwGreen(Cube cube) {
-  Cube newCube{cube};
+Cube rotateWhite(Cube cube, bool isCcw) {
+  Cube newCube{rotateFace(cube, WHITE, isCcw)};
 
-  newCube[GREEN][0] = cube[GREEN][2];
-  newCube[GREEN][1] = cube[GREEN][5];
-  newCube[GREEN][2] = cube[GREEN][8];
-  newCube[GREEN][3] = cube[GREEN][1];
-  newCube[GREEN][5] = cube[GREEN][7];
-  newCube[GREEN][6] = cube[GREEN][0];
-  newCube[GREEN][7] = cube[GREEN][3];
-  newCube[GREEN][8] = cube[GREEN][6];
+  std::vector<int> newSides {ORANGE, BLUE, RED, GREEN};
+  std::vector<int> oldSides {GREEN, ORANGE, BLUE, RED};
+
+  if (isCcw) {
+    std::vector<int> tmp{newSides};
+    newSides = oldSides;
+    oldSides = tmp;
+  }
+
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 3; j++) {
+      newCube[newSides[i]][j] = cube[oldSides[i]][j];
+    }
+  }
+  return newCube;
+}
+
+Cube ccwGreen(Cube cube) {
+  Cube newCube{rotateFace(cube, GREEN, true)};
 
   newCube[WHITE][0] = cube[RED][0];
   newCube[WHITE][3] = cube[RED][3];

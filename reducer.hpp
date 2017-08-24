@@ -37,13 +37,12 @@ State reducer(State state, Action action) {
       state.name = boost::any_cast<std::string>(action.payload);
       return state;
 
-    case ROTATE_CCW:
-      /* int face = boost::any_cast<int>(action.payload); */
-      state.cube = rotateCcw(state.cube, 1);
+    case CCW_WHITE:
+      state.cube = rotateWhite(state.cube, true);
       return state;
 
-    case CCW_WHITE:
-      state.cube = ccwWhite(state.cube);
+    case CW_WHITE:
+      state.cube = rotateWhite(state.cube, false);
       return state;
 
     case CCW_GREEN:

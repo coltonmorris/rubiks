@@ -4,8 +4,8 @@ enum ActionType {
 	DECREMENT,
   NAME_CHANGE,
   CCW_WHITE,
+  CW_WHITE,
   CCW_GREEN,
-  ROTATE_CCW,
 };
 
 enum RubiksLayout {

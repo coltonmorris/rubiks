@@ -3,6 +3,9 @@ enum ActionType {
 	INCREMENT,
 	DECREMENT,
   NAME_CHANGE,
+  CCW_WHITE,
+  CCW_GREEN,
+  ROTATE_CCW,
 };
 
 enum RubiksLayout {

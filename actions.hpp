@@ -25,3 +25,12 @@ Action decrement(int payload) {
 Action nameChange(std::string payload) {
 	return Action(NAME_CHANGE, payload);
 }
+Action rotateCcw(int payload) {
+	return Action(ROTATE_CCW, payload);
+}
+Action ccwWhite() {
+	return Action(CCW_WHITE);
+}
+Action ccwGreen() {
+	return Action(CCW_GREEN);
+}

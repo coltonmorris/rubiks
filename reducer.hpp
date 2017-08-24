@@ -1,42 +1,24 @@
 #include <string>
+#include <iostream>
+#include "rubik.hpp"
 
-/* typedef std::vector<std::string> Side; */
-typedef std::string Side;
-typedef std::vector<Side> Cube;
 
 struct State {
-  /* Side white {"white", "white", "white", "white", "white", "white", "white", "white", "white"}; */
-  Side white {"white"};
-  Side green {"green"};
-  Side red {"red"};
-  Side blue {"blue"};
-  Side orange {"orange"};
-  Side yellow {"yellow"};
-  Cube cube {white, green, red, blue, orange, yellow};
   int count;
   std::string name;
+  Cube cube;
 
   State() : count(0), name("") {};
+  State(Cube cube) : count(0), name(""), cube(cube) {};
 };
 
-std::ostream &operator<<(std::ostream &os, Cube const &cube) {
-  int size =  cube.size();
-  // TODO this must not be an int???
-  for (int i=0; i < size; i++) {
-    os << cube[0];
-  };
-};
-
-/* std::ostream &operator<<(std::ostream &os, Side const &side) { */
-/*   for (auto i = side.begin(); i != side.end(); ++i) */
-/*     os << *i << ' '; */
-/* }; */
 
 std::ostream &operator<<(std::ostream &os, State const &state) { 
   os << "State {" << std::endl;
   os << "\t count: " << state.count << std::endl;
   os << "\t name: " << state.name << std::endl;
-  os << "\t cube: " << state.cube << std::endl;
+  os << "\t cube: {" << std::endl << state.cube;
+  os << "}" << std::endl;
   return os << "}";
 };
 
@@ -53,6 +35,19 @@ State reducer(State state, Action action) {
 
     case NAME_CHANGE:
       state.name = boost::any_cast<std::string>(action.payload);
+      return state;
+
+    case ROTATE_CCW:
+      /* int face = boost::any_cast<int>(action.payload); */
+      state.cube = rotateCcw(state.cube, 1);
+      return state;
+
+    case CCW_WHITE:
+      state.cube = ccwWhite(state.cube);
+      return state;
+
+    case CCW_GREEN:
+      state.cube = ccwGreen(state.cube);
       return state;
 
 		default:

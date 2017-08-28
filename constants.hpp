@@ -6,6 +6,7 @@ enum ActionType {
   CCW_WHITE,
   CW_WHITE,
   CCW_GREEN,
+  CW_GREEN,
 };
 
 enum RubiksLayout {

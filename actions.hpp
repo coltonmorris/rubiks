@@ -34,3 +34,6 @@ Action cwWhite() {
 Action ccwGreen() {
 	return Action(CCW_GREEN);
 }
+Action cwGreen() {
+	return Action(CW_GREEN);
+}

@@ -37,17 +37,49 @@ State reducer(State state, Action action) {
       state.name = boost::any_cast<std::string>(action.payload);
       return state;
 
-    case CCW_WHITE:
-      state.cube = rotateWhite(state.cube, true);
+    case CCW_WHITE: {
+      SideRotation orange (ORANGE, std::vector<int>{0,1,2});
+      SideRotation blue (BLUE, std::vector<int>{0,1,2});
+      SideRotation red (RED, std::vector<int>{0,1,2});
+      SideRotation green (GREEN, std::vector<int>{0,1,2});
+      CubeRotation newSides {green, orange, blue, red};
+      CubeRotation oldSides {orange, blue, red, green};
+      state.cube = rotateCube(state.cube, WHITE, true, newSides, oldSides);
       return state;
+    }
 
-    case CW_WHITE:
-      state.cube = rotateWhite(state.cube, false);
+    case CW_WHITE: {
+      SideRotation orange (ORANGE, std::vector<int>{0,1,2});
+      SideRotation blue (BLUE, std::vector<int>{0,1,2});
+      SideRotation red (RED, std::vector<int>{0,1,2});
+      SideRotation green (GREEN, std::vector<int>{0,1,2});
+      CubeRotation newSides {orange, blue, red, green};
+      CubeRotation oldSides {green, orange, blue, red};
+      state.cube = rotateCube(state.cube, WHITE, false, newSides, oldSides);
       return state;
+    }
 
-    case CCW_GREEN:
-      state.cube = ccwGreen(state.cube);
+    case CCW_GREEN: {
+      SideRotation white (WHITE, std::vector<int>{0,3,6});
+      SideRotation orange (ORANGE, std::vector<int>{2,5,8});
+      SideRotation yellow (YELLOW, std::vector<int>{0,3,6});
+      SideRotation red (RED, std::vector<int>{0,3,6});
+      CubeRotation newSides {white, orange, yellow, red};
+      CubeRotation oldSides {red, white, orange, yellow};
+      state.cube = rotateCube(state.cube, GREEN, true, newSides, oldSides);
       return state;
+    }
+
+    case CW_GREEN: {
+      SideRotation white (WHITE, std::vector<int>{0,3,6});
+      SideRotation orange (ORANGE, std::vector<int>{2,5,8});
+      SideRotation red (RED, std::vector<int>{0,3,6});
+      SideRotation yellow (YELLOW, std::vector<int>{0,3,6});
+      CubeRotation newSides {red, white, orange, yellow};
+      CubeRotation oldSides {white, orange, yellow, red};
+      state.cube = rotateCube(state.cube, GREEN, false, newSides, oldSides);
+      return state;
+    }
 
 		default:
 			return state;

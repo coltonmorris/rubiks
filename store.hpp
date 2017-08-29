@@ -2,10 +2,8 @@
 #include "redux.hpp"
 #include "reducer.hpp"
 
-Cube cube = initializeCube();
-
 // initialize store with initial state
-redux::Store<State, Action> store(reducer, State{cube});
+redux::Store<State, Action> store(reducer, State{});
 
 // state logger
 void logger(State state) {

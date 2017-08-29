@@ -1,6 +1,8 @@
 #include <algorithm>
 #include <vector>
 
+#include "actions.hpp"
+
 typedef std::vector<std::string> Side;
 typedef std::vector<Side> Cube;
 typedef std::pair<int, std::vector<int>> SideRotation;
@@ -57,7 +59,7 @@ Cube initializeCube() {
     cube.push_back(side);
   }
 
-  cube[0][1] = "TEST";
+  /* cube[0][1] = "TEST"; */
 
   return cube;
 }; 

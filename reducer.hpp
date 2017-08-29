@@ -8,7 +8,7 @@ struct State {
   std::string name;
   Cube cube;
 
-  State() : count(0), name("") {};
+  State() : count(0), name(""), cube() {};
   State(Cube cube) : count(0), name(""), cube(cube) {};
 };
 
@@ -35,6 +35,10 @@ State reducer(State state, Action action) {
 
     case NAME_CHANGE:
       state.name = boost::any_cast<std::string>(action.payload);
+      return state;
+
+    case SET_CUBE:
+      state.cube = boost::any_cast<Cube>(action.payload);
       return state;
 
     case CCW_WHITE: {
@@ -79,7 +83,43 @@ State reducer(State state, Action action) {
       CubeRotation oldSides {white, orange, yellow, red};
       state.cube = rotateCube(state.cube, GREEN, false, newSides, oldSides);
       return state;
-    }
+    };
+
+    case CCW_RED: {
+      std::cout << "Not implemented" << std::endl;
+      std::exit(1);
+    };
+    case CW_RED: {
+      std::cout << "Not implemented" << std::endl;
+      std::exit(1);
+    };
+
+    case CCW_BLUE: {
+      std::cout << "Not implemented" << std::endl;
+      std::exit(1);
+    };
+    case CW_BLUE: {
+      std::cout << "Not implemented" << std::endl;
+      std::exit(1);
+    };
+
+    case CCW_ORANGE: {
+      std::cout << "Not implemented" << std::endl;
+      std::exit(1);
+    };
+    case CW_ORANGE: {
+      std::cout << "Not implemented" << std::endl;
+      std::exit(1);
+    };
+
+    case CCW_YELLOW: {
+      std::cout << "Not implemented" << std::endl;
+      std::exit(1);
+    };
+    case CW_YELLOW: {
+      std::cout << "Not implemented" << std::endl;
+      std::exit(1);
+    };
 
 		default:
 			return state;

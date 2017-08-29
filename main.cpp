@@ -1,9 +1,9 @@
-#include <boost/tokenizer.hpp>
-#include <boost/lexical_cast.hpp>
-#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string.hpp> // for splitting
+#include <boost/function.hpp> // for map of functions
+#include <boost/bind.hpp> // for map of functions
+#include <iostream>
+#include <map>
 
-#include "redux.hpp"
-#include "actions.hpp"
 #include "store.hpp"
 
 /* POSSIBLE COMMANDS:
@@ -34,130 +34,85 @@
  *
  */
 
-enum Commands {
-  INITIAL,
-  ROTATE,
-  SHOW,
-  ISEQUAL
-};
-
-/*
-   Turn string s into a vector of types T
- */
-template<class T>
-void tokenizeV(const std::string &s,
-          std::vector<T> &o)
-{
-  typedef boost::tokenizer<boost::escaped_list_separator<char> >  tok_t;
-
-  tok_t tok(s);
-  for(tok_t::iterator j (tok.begin());
-      j != tok.end();
-      ++j)
-  {
-    std::string f(*j);
-    boost::trim(f);
-    o.push_back(boost::lexical_cast<T>(f));
-  }
-}
-
-/* Cube tokenizeCube(const std::vector<std::string> &inputCube) { */
-/*   Cube cube{}; */
-/*   typedef boost::tokenizer<boost::escaped_list_separator<char> >  tok_t; */
-
-/*   std::vector<std::string> colorNames{"white", "green", "red", "blue", "orange", "yellow"}; */
-
-/*   for (int i = 0; i < 6; i++) { */
-/*     Side side{}; */
-/*     for (int j = 0; j < 9; j++) { */
-/*       side.push_back(colorNames[i]); */
-/*     } */
-/*     cube.push_back(side); */
-/*   } */
-
-/*   cube[0][1] = "TEST"; */
-
-/*   return cube; */
-/*   tok_t tok(s); */
-/*   for(tok_t::iterator j (tok.begin()); */
-/*       j != tok.end(); */
-/*       ++j) */
-/*   { */
-/*     std::string f(*j); */
-/*     boost::trim(f); */
-/*     o.push_back(boost::lexical_cast<T>(f)); */
-/*   } */
-/* } */
-
 Cube createCubeFromInput() {
-  // TODO the cube is being made with an empty line as the sides. loop through the sides of the cube first and see what those look like
-  // It's definitely adding a line
   Cube cube{};
+  Side side{};
   std::string input;
-  std::vector<std::string> SideRow;
 
   for (int i = 0; i < 18; i++) {
-    std::getline(std::cin, input);
+    std::getline(std::cin, input, '\n');
 
     if (input.empty()) {
-      std::cout << "empty line, not adding" << std::endl;
       i--;
       continue;
     }
-    std::cout << "non empty line, adding" << std::endl;
-      i--;
+    std::vector<std::string> SideRow{};
 
-    Side side{};
     boost::split(SideRow, input, boost::is_any_of("\t "));
 
     side.push_back(SideRow[0]);
     side.push_back(SideRow[1]);
     side.push_back(SideRow[2]);
 
-    cube.push_back(side);
+    if (side.size() == 9) {
+      cube.push_back(side);
+      side.clear();
+    }
   }
 
-  std::cout << "LOOK HERE: " << std::endl;
-  std::cout << cube[1] << std::endl;
-  std::cout << "LOOK HERE: " << std::endl;
   return cube;
 }
 
 int main() {
+  typedef boost::function<Action (void)> ActionFuncs;
+  typedef std::map<std::string, ActionFuncs> RotateFuncs;
+  RotateFuncs rotateFuncs;
+
+  rotateFuncs["white cw"] = cwWhite;
+  rotateFuncs["white ccw"] = ccwWhite;
+  rotateFuncs["green cw"] = cwGreen;
+  rotateFuncs["green ccw"] = ccwGreen;
+  rotateFuncs["red cw"] = cwRed;
+  rotateFuncs["red ccw"] = ccwRed;
+  rotateFuncs["blue cw"] = cwBlue;
+  rotateFuncs["blue ccw"] = ccwBlue;
+  rotateFuncs["orange cw"] = cwOrange;
+  rotateFuncs["orange ccw"] = ccwOrange;
+  rotateFuncs["yellow cw"] = cwYellow;
+  rotateFuncs["yellow ccw"] = ccwYellow;
+
   std::string input;
   std::vector<std::string> line;
 
-  while (std::getline(std::cin, input)) {
-    // TODO:
-    // if input is EOF, break
-
+  while (std::getline(std::cin, input, '\n')) {
     boost::split(line, input, boost::is_any_of("\t "));
 
     if (line[0] == "initial") {
       Cube inputCube{createCubeFromInput()};
-      std::cout << "Created cube: " << std::endl;
-      std::cout << inputCube;
+      store.dispatch(setCube(inputCube));
     }
     else if (line[0] == "show") {
       std::cout << store.getState().cube;
     }
     else if (line[0] == "isequal") {
+      std::cout << std::endl;
+
       // read an input cube
-      std::cout << "checking isequal" << std::endl;
+      Cube inputCube{createCubeFromInput()};
+
+      if (inputCube == store.getState().cube) {
+        std::cout << "TRUE" << std::endl;
+      }
+      else {
+        std::cout << "FALSE" << std::endl;
+      }
     }
     else if (line[0] == "rotate") {
       if (line[1] == "done") {
         continue;
       }
-      // read an input cube
-      std::cout << "rotating" << std::endl;
-    }
-    else if (line[0] == "exit") {
-      break;
-    }
-    else {
-      std::cout << "default" << std::endl;
-      continue;
+
+      store.dispatch(rotateFuncs[line[1] + " " + line[2]]());
     }
   }
 
@@ -169,14 +124,12 @@ int main() {
 	/* // 3 */
 	/* store.dispatch(decrement(4)); */
 	/* // -1 */
-	store.dispatch(increment(7));
+	/* store.dispatch(increment(7)); */
 	/* // 6 */
-  store.dispatch(nameChange("colton"));
-  store.dispatch(cwWhite());
+  /* store.dispatch(nameChange("colton")); */
+  /* store.dispatch(cwWhite()); */
   /* store.dispatch(cwWhite()); */
   /* store.dispatch(ccwGreen()); */
   /* store.dispatch(cwGreen()); */
-  std::cout << store.getState();
-
-  //TODO start using the acceptance testing!
+  /* std::cout << store.getState().cube; */
 };

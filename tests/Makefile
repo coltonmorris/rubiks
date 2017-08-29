@@ -20,7 +20,7 @@ test: $(PROGRAM)
 	  out=$$(echo $$in | sed 's/\.in$$/.out/'); \
 	  echo -n "$$in  "; \
 	  ./$(PROGRAM) < $$in > killme; \
-	  diff -q -B killme $$out > /dev/null; \
+	  diff -w -q -B killme $$out > /dev/null; \
 	  if [ $$? -ne 0 ]; then echo "  FAILED"; else echo "  SUCCEEDED"; fi; \
 	  rm -f killme; \
 	done
